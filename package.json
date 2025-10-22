@@ -1,11 +1,12 @@
 {
   "name": "nzb-parser",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "NZB File Parser",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
-    "test": "node --experimental-strip-types --test ./test/*.ts"
+    "test": "node --experimental-strip-types --test ./test/*.ts",
+    "build": "tsc"
   },
   "keywords": ["nzb", "parser", "usenet", "newsgroups", "xml", "nntp", "news"],
   "author": "ThaUnknown",
@@ -15,5 +16,11 @@
   },
   "devDependencies": {
     "@types/node": "^22.7.5"
-  }
+  },
+  "files": [
+    "!test/",
+    "!dist/test/",
+    "src/",
+    "dist/src/"
+  ]
 }

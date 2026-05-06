@@ -1,7 +1,7 @@
+import { equal, rejects, throws } from 'node:assert'
+import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import test, { describe } from 'node:test'
-import { readFile } from 'node:fs/promises'
-import { equal, rejects, throws } from 'node:assert'
 
 import { InvalidNZBError } from '../src/exceptions.ts'
 import parse from '../src/index.ts'
@@ -50,7 +50,7 @@ describe('NZB Tests', () => {
     const message = 'Missing something in the NZB'
     const error = new InvalidNZBError(message)
     equal(error.message, message)
-    equal('' + error, 'InvalidNZBError: Missing something in the NZB')
+    equal('' + error.toString(), 'InvalidNZBError: Missing something in the NZB')
   })
 
   test('parsing invalid nzb', () => {

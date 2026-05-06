@@ -1,9 +1,10 @@
 import { deepEqual, equal } from 'node:assert'
-import { join } from 'node:path'
-import { FileMeta, Segment } from '../src/models.ts'
-import parse from '../src/index.ts'
 import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import test, { describe } from 'node:test'
+
+import parse from '../src/index.ts'
+import { FileMeta, Segment } from '../src/models.ts'
 
 const nzbs = './test/files/'
 
@@ -20,12 +21,12 @@ describe('NZB Tests', () => {
     equal(nzb.files.length, 1)
     equal(nzb.file.name, 'abc-mr2a.r01')
     equal(nzb.size, 106895)
-    equal(nzb.files[0].segments.length, 2)
-    deepEqual(new Set(nzb.files[0].segments), new Set([
+    equal(nzb.files[0]!.segments.length, 2)
+    deepEqual(new Set(nzb.files[0]!.segments), new Set([
       new Segment(102394, 1, '123456789abcdef@news.newzbin.com'),
       new Segment(4501, 2, '987654321fedbca@news.newzbin.com')
     ]))
-    deepEqual(new Set(nzb.files[0].groups), new Set(['alt.binaries.mojo', 'alt.binaries.newzbin']))
+    deepEqual(new Set(nzb.files[0]!.groups), new Set(['alt.binaries.mojo', 'alt.binaries.newzbin']))
   })
 
   test('test_big_buck_bunny', async () => {
@@ -127,7 +128,7 @@ describe('NZB Tests', () => {
     const file = await readFile(join(nzbs, 'bad_subject.nzb'))
     const nzb = parse(file.toString())
 
-    equal(nzb.files[0].name, '')
+    equal(nzb.files[0]!.name, '')
   })
 
   test('test_non_standard_meta', async () => {

@@ -1,4 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { XMLParser, XMLValidator } from 'fast-xml-parser'
+
 import { InvalidNZBError } from './exceptions.ts'
 import { NZB, FileMeta, Meta, Segment } from './models.ts'
 
@@ -21,11 +23,11 @@ export default function parse (string: string): NZB {
   }
 }
 
-type MetaFieldType = Array<Record<string, string>> | Record<string, string> | undefined;
-type FileFieldType = Array<Record<string, any>> | Record<string, any> | undefined;
-type GroupFieldType = Array<string> | string | undefined;
+type MetaFieldType = Array<Record<string, string>> | Record<string, string> | undefined
+type FileFieldType = Array<Record<string, any>> | Record<string, any> | undefined
+type GroupFieldType = string[] | string | undefined
 
-function parseMetadata (nzb: { [key: string]: any }): Meta {
+function parseMetadata (nzb: Record<string, any>): Meta {
   let meta: MetaFieldType = nzb?.nzb?.head?.meta
   if (!meta) return new Meta()
 
@@ -59,7 +61,7 @@ function parseMetadata (nzb: { [key: string]: any }): Meta {
   })
 }
 
-function parseSegments (segmentdict: { [key: string]: any } | null): Segment[] {
+function parseSegments (segmentdict: Record<string, any> | null): Segment[] {
   const segments = segmentdict?.segment
 
   if (!segments) {
@@ -82,7 +84,7 @@ function parseSegments (segmentdict: { [key: string]: any } | null): Segment[] {
   return segmentset.sort((a, b) => a.number - b.number)
 }
 
-function parseFiles (nzb: { [key: string]: any }): FileMeta[] {
+function parseFiles (nzb: Record<string, any>): FileMeta[] {
   const fileTags = nzb?.nzb?.file as FileFieldType
 
   if (fileTags === null || fileTags === undefined) {

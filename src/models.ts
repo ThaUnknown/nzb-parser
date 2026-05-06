@@ -42,7 +42,7 @@ export class FileMeta {
   size: number
   name: string
 
-  constructor (data: { poster: string; datetime: Date; subject: string; groups: string[]; segments: Segment[] }) {
+  constructor (data: { poster: string, datetime: Date, subject: string, groups: string[], segments: Segment[] }) {
     if (typeof data.poster !== 'string') throw new SyntaxError('Invalid poster')
     if (!(data.datetime instanceof Date)) throw new SyntaxError('Invalid datetime')
     if (typeof data.subject !== 'string') throw new SyntaxError('Invalid subject')
@@ -57,7 +57,7 @@ export class FileMeta {
 
     this.size = this.segments.reduce((sum, seg) => sum + seg.size, 0)
 
-    this.name = (this.subject.match(/"([^"]*)"/) || this.subject.match(/\b([\w\-+()' .,]+(?:\[[\w\-/+()' .,]*][\w\-+()' .,]*)*\.[A-Za-z0-9]{2,4})\b/))?.[1].trim() || ''
+    this.name = (this.subject.match(/"([^"]*)"/) ?? this.subject.match(/\b([\w\-+()' .,]+(?:\[[\w\-/+()' .,]*][\w\-+()' .,]*)*\.[A-Za-z0-9]{2,4})\b/))?.[1]?.trim() ?? ''
   }
 }
 
@@ -71,7 +71,7 @@ export class NZB {
   groups: string[]
   par2Size: number
 
-  constructor (data: { meta?: Meta; files: FileMeta[] }) {
+  constructor (data: { meta?: Meta, files: FileMeta[] }) {
     this.meta = data.meta ?? new Meta()
     this.files = data.files
 
